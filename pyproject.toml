@@ -7,14 +7,18 @@ requires-python = ">=3.14"
 dependencies = [
     "duckdb>=1.5.4",
     "duckdb-engine>=0.17.0",
+    "grpcio>=1.81.1",
+    "grpcio-status>=1.81.1",
     "jupysql>=0.11.1",
     "jupyter-ai>=3.0.0",
     "jupyter-ai-magic-commands>=0.0.3",
     "jupyterlab>=4.6.0",
     "pandas>=3.0.3",
+    "pyarrow>=24.0.0",
     "pyspark>=4.1.2",
     "quarto-cli>=1.9.38",
     "toml>=0.10.2",
+    "zstandard>=0.25.0",
 ]
 
 [dependency-groups]
