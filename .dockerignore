@@ -1,0 +1,7 @@
+.Trash-0
+.venv
+.git
+__pycache__
+*.pyc
+
+notebooks/data
