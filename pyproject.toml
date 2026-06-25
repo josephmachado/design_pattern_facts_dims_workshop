@@ -17,6 +17,7 @@ dependencies = [
     "pyarrow>=24.0.0",
     "pyspark>=4.1.2",
     "quarto-cli>=1.9.38",
+    "sqlframe[duckdb]>=4.3.0",
     "toml>=0.10.2",
     "zstandard>=0.25.0",
 ]
