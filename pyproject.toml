@@ -7,6 +7,7 @@ requires-python = ">=3.14"
 dependencies = [
     "duckdb>=1.5.4",
     "duckdb-engine>=0.17.0",
+    "great-tables>=0.22.0",
     "grpcio>=1.81.1",
     "grpcio-status>=1.81.1",
     "jupysql>=0.11.1",
@@ -17,6 +18,7 @@ dependencies = [
     "pyarrow>=24.0.0",
     "pyspark>=4.1.2",
     "quarto-cli>=1.9.38",
+    "selenium>=4.45.0",
     "sqlframe[duckdb]>=4.3.0",
     "toml>=0.10.2",
     "zstandard>=0.25.0",
