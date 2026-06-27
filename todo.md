@@ -15,3 +15,4 @@
 8. Setup reminder link (for readers who choose it)
 9. Feedback form with option to join beta readers
 10. time it & practice
+
