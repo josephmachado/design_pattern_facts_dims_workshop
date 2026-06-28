@@ -186,6 +186,73 @@ def run_ddl(data_path, spark, recreate=False):
       'format-version' = '2'
     )
     """)
+
+    ##################### DATA FOR EXAMPLES ####################################
+
+    spark.sql("drop table if exists prod.db.dim_mktsegment");
+
+    spark.sql("""
+        CREATE TABLE IF NOT EXISTS prod.db.dim_mktsegment (
+          c_mktsegment        STRING,
+          segment_description STRING,
+          priority_tier       STRING
+        ) USING iceberg
+        TBLPROPERTIES (
+          'format-version' = '2'
+        )
+        """);
+    
+    spark.sql("""
+        INSERT INTO prod.db.dim_mktsegment VALUES
+          ('MACHINERY',  'Industrial machinery and equipment buyers', 'High'),
+          ('AUTOMOBILE', 'Automotive and vehicle-related customers',   'High'),
+          ('BUILDING',   'Construction and building materials sector', 'Medium'),
+          ('HOUSEHOLD',  'Household goods and consumer products',      'Medium')
+        """)
+    
+    spark.sql("""
+        CREATE TABLE IF NOT EXISTS prod.db.customer_details (
+          customer_id  STRING,
+          name         STRING,
+          email        STRING,
+          created_at   DATE,
+          updated_at   DATE
+        ) USING iceberg
+        TBLPROPERTIES (
+          'format-version' = '2'
+        )
+        """)
+    
+    spark.sql("""
+        INSERT INTO prod.db.customer_details VALUES
+          ('c1', 'customer_1_name', 'customer_1_email',    DATE '2026-01-01', DATE '2026-01-01'),
+          ('c2', 'customer_2_name', 'customer_2_email',    DATE '2026-01-02', DATE '2026-01-02'),
+          ('c3', 'customer_3_name', 'customer_3_email',    DATE '2026-01-02', DATE '2026-01-02'),
+          ('c4', 'customer_4_name', 'customer_4_email',    DATE '2026-01-03', DATE '2026-01-03'),
+          ('c1', 'customer_1_name', 'customer_1_email_v2', DATE '2026-01-01', DATE '2026-01-03')
+        """)
+    
+    spark.sql("""
+        CREATE TABLE IF NOT EXISTS prod.db.customer_address (
+          customer_id  STRING,
+          address      STRING,
+          created_at   DATE,
+          updated_at   DATE
+        ) USING iceberg
+        TBLPROPERTIES (
+          'format-version' = '2'
+        )
+        """)
+    
+    spark.sql("""
+        INSERT INTO prod.db.customer_address VALUES
+          ('c1', 'customer_1_address', DATE '2026-01-01', DATE '2026-01-01'),
+          ('c2', 'customer_2_address', DATE '2026-01-02', DATE '2026-01-02'),
+          ('c3', 'customer_3_address', DATE '2026-01-02', DATE '2026-01-02'),
+          ('c4', 'customer_4_address', DATE '2026-01-03', DATE '2026-01-03')
+        """)
+
+    ######################################################################################################
     
     def upsert_data(data_name, data_path=data_path):
         csv_path = data_path / f"{data_name}.csv"
