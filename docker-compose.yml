@@ -5,9 +5,9 @@ services:
       dockerfile: Dockerfile
     image: sde-workshop
     container_name: sde-workshop
-    user: "${UID}:${GID}"
     ports:
       - "8888:8888"   # Jupyter Lab
+      - "3001:3001"   # Jupyter Lab MCP
     volumes:
       - ./:/usr/src/app
       - /usr/src/app/.venv

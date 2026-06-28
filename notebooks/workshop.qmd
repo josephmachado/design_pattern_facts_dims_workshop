@@ -1,0 +1,11 @@
+---
+title: Workshop
+description: qmd
+format: 
+  html:
+    code-fold: false
+jupyter: python3
+---
+
+
+
