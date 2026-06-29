@@ -9,13 +9,15 @@
 2. [x] Code clean up; focus on easy to understand, quick to run & exercise prompts
 3. [x] Content front load, clean up
 - [x] Format, add links, further reading per section & general presentation 
-- [ ] Split to with and without solution notebooks
-4. [ ] Takeaway notes + key points to hit (organize for priority and top-down flow)
+- [x] Split to with and without solution notebooks
+4. [x] Takeaway notes + key points to hit (organize for priority and top-down flow)
 ~5. Time & practice~
 ~6. Create a post + pdf for this~ 
+- [ ] Clean up README.md
 7. [ ] Setup Youtube live event 
 8. [ ] Setup reminder link (for readers who choose it)
-9. [ ] Feedback form with option to join beta readers
+9. [x] Feedback form with option to join beta readers
 10. [ ] time it & practice
 11. [ ] PDF email broadcast
+- [ ] Create blog post from notebook with solution
 
