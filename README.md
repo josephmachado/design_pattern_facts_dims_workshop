@@ -5,6 +5,8 @@
         * [CodeSpaces Setup (Recommended)](#codespaces-setup-recommended)
         * [Local Setup](#local-setup)
             * [Running code](#running-code)
+    * [Switch off codespaces](#switch-off-codespaces)
+    * [Troubleshooting](#troubleshooting)
 
 <!-- vim-markdown-toc -->
 
@@ -48,18 +50,14 @@ Open Jupyter Lab at [http://localhost:8888](http://localhost:8888)
 
 Open workshop notebook at [./notebooks/workshop.ipynb](./notebooks/workshop.ipynb)
 
+## Switch off codespaces 
+
 > [!CAUTION]
 > Do not forget to stop your codespaces machine
+
+## Troubleshooting 
 
 > [!WARNING]
 > 
 > If you find an error when doing `just up`. It is likely due to this repo using an old Spark version. Go to [Dockerfile](./Dockerfile) and update the `RUN wget ` to use the dlcn version.
-
-Start docker containers as shown below:
-
-```bash
-just restart # restart docker containers
-sleep 30 # waith 30s for services to catchup
-just nb # opens notebook
-```
 
