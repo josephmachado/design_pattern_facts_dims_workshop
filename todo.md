@@ -7,9 +7,9 @@
    ~[ ] add image showing options as diverging paths for dimensions (left join + unknowns, inner join + loose data, wait for completeness), and their cons~
    ~[ ] add: image that shows inc dim + joins is tricky as a data now can point to an input from past,~
 2. [x] Code clean up; focus on easy to understand, quick to run & exercise prompts
-3. [ ] Content front load, clean up
-4. [ ] Takeaway notes + key points to hit (organize for priority and top-down flow)
+3. [x] Content front load, clean up
 - [ ] Format, add links, further reading per section & general presentation 
+4. [ ] Takeaway notes + key points to hit (organize for priority and top-down flow)
 ~5. Time & practice~
 ~6. Create a post + pdf for this~ 
 7. [ ] Setup Youtube live event 

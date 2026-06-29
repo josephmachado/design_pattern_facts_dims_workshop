@@ -34,6 +34,7 @@ ENV PATH="/root/.local/bin/:$PATH"
 # Copy code and settings
 COPY . .
 
+
 # Install modules
 RUN uv sync
 
@@ -47,7 +48,7 @@ ENV ICEBERG_VERSION=1.10.1
 # RUN wget -q https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop3.tgz && \ 
 
 # dlcdn link is faster but only keeps latest Spark releases; 
-RUN wget -q https://dlcdn.apache.org/spark/spark-4.1.2/spark-4.1.2-bin-hadoop3.tgz && \
+RUN wget -q https://dlcdn.apache.org/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop3.tgz && \
     tar -xzf spark-${SPARK_VERSION}-bin-hadoop3.tgz && \
     mv spark-${SPARK_VERSION}-bin-hadoop3 ${SPARK_HOME} && \
     rm spark-${SPARK_VERSION}-bin-hadoop3.tgz
@@ -56,8 +57,10 @@ RUN wget -q https://dlcdn.apache.org/spark/spark-4.1.2/spark-4.1.2-bin-hadoop3.t
 RUN curl https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-spark-runtime-${SPARK_MAJOR_VERSION}_2.13/${ICEBERG_VERSION}/iceberg-spark-runtime-${SPARK_MAJOR_VERSION}_2.13-${ICEBERG_VERSION}.jar -Lo $SPARK_HOME/jars/iceberg-spark-runtime-${SPARK_MAJOR_VERSION}_2.13-${ICEBERG_VERSION}.jar
 
 ENV PATH=$PATH:$SPARK_HOME/bin
+ENV PYTHONPATH="${SPARK_HOME}/python:${SPARK_HOME}/python/lib/py4j-0.10.9.9-src.zip:${PYTHONPATH}"
 
 COPY ./spark_defaults.conf $SPARK_HOME/conf/spark-defaults.conf
+# COPY ./log4j2.properties $SPARK_HOME/conf/log4j2.properties
 
 # Setting for jupyter notebook
 COPY ./ipython_scripts/startup/ /root/.ipython/profile_default/startup/
