@@ -14,10 +14,10 @@
 ~5. Time & practice~
 ~6. Create a post + pdf for this~ 
 - [x] Clean up README.md
+- [ ] Create blog post from notebook with solution
 7. [ ] Setup Youtube live event 
+11. [ ] PDF email broadcast
 8. [ ] Setup reminder link (for readers who choose it)
 9. [x] Feedback form with option to join beta readers
 10. [ ] time it & practice
-11. [ ] PDF email broadcast
-- [ ] Create blog post from notebook with solution
 
