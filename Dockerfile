@@ -60,24 +60,8 @@ ENV PATH=$PATH:$SPARK_HOME/bin
 ENV PYTHONPATH="${SPARK_HOME}/python:${SPARK_HOME}/python/lib/py4j-0.10.9.9-src.zip:${PYTHONPATH}"
 
 COPY ./spark_defaults.conf $SPARK_HOME/conf/spark-defaults.conf
-# COPY ./log4j2.properties $SPARK_HOME/conf/log4j2.properties
+COPY ./log4j2.properties $SPARK_HOME/conf/log4j2.properties
 ENV PYSPARK_PYTHON="python3"
-
-# Add a notebook command
-RUN echo '#! /bin/sh' >> /bin/notebook \
- && echo 'export PYSPARK_DRIVER_PYTHON=jupyter-notebook' >> /bin/notebook \
- && echo "export PYSPARK_DRIVER_PYTHON_OPTS=\"--notebook-dir=/home/iceberg/notebooks --ip='*' --NotebookApp.token='' --NotebookApp.password='' --port=8888 --no-browser --allow-root\"" >> /bin/notebook \
- && echo "export SPARK_NO_DAEMONIZE=1" >> /bin/notebook \
- && echo "pyspark" >> /bin/notebook \
- && chmod u+x /bin/notebook
-
-# Add a pyspark-notebook command (alias for notebook command for backwards-compatibility)
-RUN echo '#! /bin/sh' >> /bin/pyspark-notebook \
- && echo 'export PYSPARK_DRIVER_PYTHON=jupyter-notebook' >> /bin/pyspark-notebook \
- && echo "export PYSPARK_DRIVER_PYTHON_OPTS=\"--notebook-dir=/home/iceberg/notebooks --ip='*' --NotebookApp.token='' --NotebookApp.password='' --port=8888 --no-browser --allow-root\"" >> /bin/pyspark-notebook \
- && echo "export SPARK_NO_DAEMONIZE=1" >> /bin/notebook \
- && echo "pyspark" >> /bin/pyspark-notebook \
- && chmod u+x /bin/pyspark-notebook
 
 # Setting for jupyter notebook
 COPY ./ipython_scripts/startup/ /root/.ipython/profile_default/startup/
