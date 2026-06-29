@@ -9,6 +9,7 @@
 2. [x] Code clean up; focus on easy to understand, quick to run & exercise prompts
 3. [x] Content front load, clean up
 - [ ] Format, add links, further reading per section & general presentation 
+- [ ] Split to with and without solution notebooks
 4. [ ] Takeaway notes + key points to hit (organize for priority and top-down flow)
 ~5. Time & practice~
 ~6. Create a post + pdf for this~ 
