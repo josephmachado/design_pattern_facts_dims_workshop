@@ -209,6 +209,8 @@ def run_ddl(data_path, spark, recreate=False):
           ('BUILDING',   'Construction and building materials sector', 'Medium'),
           ('HOUSEHOLD',  'Household goods and consumer products',      'Medium')
         """)
+
+    spark.sql("drop table if exists prod.db.customer_details");
     
     spark.sql("""
         CREATE TABLE IF NOT EXISTS prod.db.customer_details (
@@ -231,6 +233,8 @@ def run_ddl(data_path, spark, recreate=False):
           ('c4', 'customer_4_name', 'customer_4_email',    DATE '2026-01-03', DATE '2026-01-03'),
           ('c1', 'customer_1_name', 'customer_1_email_v2', DATE '2026-01-01', DATE '2026-01-03')
         """)
+
+    spark.sql("drop table if exists prod.db.customer_address");
     
     spark.sql("""
         CREATE TABLE IF NOT EXISTS prod.db.customer_address (

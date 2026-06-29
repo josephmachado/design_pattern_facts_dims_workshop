@@ -1,0 +1,401 @@
+---
+title: Setup
+jupyter: python3
+execute:
+  enabled: false
+---
+
+
+
+```{python}
+# Stop any existing session
+try:
+    spark.stop()
+except:
+    pass
+```
+
+```{python}
+#| scrolled: true
+from pyspark.sql import Row, SparkSession
+
+chapter_name = "design_workshop_facts_dims"
+spark = SparkSession.builder.appName(chapter_name).master("local[*]").getOrCreate()
+spark.sparkContext.setLogLevel("ERROR")
+
+from pathlib import Path
+from generate_data import run
+from run_ddl import run_ddl
+
+run(scaling_factor=0.01, format="csv", output_folder_path="./data") # data will be 0.01 GB on your disk",
+run_ddl(data_path=Path("./data"), spark=spark, recreate=True)
+
+spark.sql("use prod.db")
+spark.sql("show tables").show()
+```
+
+#### Data Schema 
+
+TPCH is a bicycle parts seller.
+
+![TPCH Data Model](../images/tpch_erd.png)
+
+## Facts & dimensions are your most critical data assets
+
+* There are multiple tools to ingest data from source systems. E.g., Fivetran, Kafka S3 connector, CDC, dlt, etc
+* Creating reports and dashboards, and using AI Agent usage, involves combining tables with JOINS and creating metrics with GROUP BY. There are tools and entire teams dedicated to this. E.g., Semantic Layer, Analysts, Data Scientists, etc
+* Our job is to make data ready for use, aka design the fact and dimension data products.
+* There is no system or tool to automate the creation of facts and dimensions. This is because it involves a wide range of variables: business flow, evolving definitions, use-case understanding, etc.
+* If your facts and dimension tables are easy to use and maintain, your life will be so much easier.
+                                                                                                                                                                                
+![Standard Data Flow](../images/data-flow.png)                                                                                                                                       
+* Almost every company uses a variation of the multi-hop architecture.
+  * Data dump as-is from source
+  * Data types and naming conversions (aka Bronze).
+  * Data modeled as facts and dimensions (aka Silver).
+  * Data aggregated and metrics created. Ready for select * use by users (aka Gold/mart).
+* Do not worry about mapping these layers to naming conventions. Every company is different, but they all undergo layer-by-layer data transformation.
+* Some companies may also have an Inmon-style layer before the fact and dimension layer. 
+
+### Additional Resources 
+
+1. CDC with Debezium & DuckDB
+2. What are Fact and Dimension tables?
+3. Why do we need a data warehouse?
+4. What is a multi-hop architecture?
+
+## Proper design = Understanding business logic + choosing from the list of options below
+
+```{python}
+#| jupyter: {source_hidden: true}
+import pandas as pd
+from great_tables import GT, md, style, loc
+
+df = pd.DataFrame({
+    "type": ["Fact", "Dim"],
+    "extract": [
+        "Incremental extract with `inserted_at >= start_time AND inserted_at < end_time` <br> Start & end time suppied by [scheduler](https://www.startdataengineering.com/post/airflow-tutorial/#when-data-interval-to-be-processed-pipeline-frequency)",
+        "Full table extract with `select * from source_tables`",
+    ],
+    "transform": [
+        "**Standard Enrichment:** COALESCE(mapping_data, 'UNKNOWN') + LEFT JOIN mapping tables<br>"
+        "**Advanced:** Window Functions, Self Joins, Union, Except for <br> \t 1. Deduplication <br> \t 2. Sessionization/Attribution <br> \t 3. Multi source fact data",
+        "**Unknown Incomplete Data:** driver table + INNER JOIN other tables<br>"
+        "**Known Incomplete Data:** driver table + LEFT JOIN other tables<br>"
+        "**Slow Complete Data:** Wait for all input table to be complete",
+    ],
+    "quality": [
+        "**Reconciliation Check:** `COUNT(*)` in output vs `COUNT(*)` in input",
+        "**Reconciliation Check:** `COUNT(*)` in output vs `COUNT(*)` in input<br>"
+        "**Table Constraint Checks:** Uniqueness & Completeness of business natural key (use natural key + is_current for SCD2)",
+    ],
+    "load": [
+        "Insert overwrite partition",
+        "Overwrite full table (for SCD2 use `MERGE INTO`)",
+    ],
+    "opt_storage": [
+        "Partition by `day(created_at)`",
+        "Not needed (data &lt; 10mil)",
+    ],
+    "opt_code": [
+        "* Broadcast join mapping tables<br>" 
+        "* Window functions & self joins reduce data shuffle with [SPJ](https://spark.apache.org/docs/latest/sql-performance-tuning.html#storage-partition-join) & [partition pruning](https://www.startdataengineering.com/post/data-storage-pattern-rule-of-thumb/)",
+        "Not needed (data &lt; 10mil)",
+    ],
+})
+
+gt = (
+    GT(df, rowname_col="type")
+    .tab_header(
+        title=md("**Design Patterns: Fact & Dimension Tables**"),
+        subtitle="Reference for extract, transform, quality, load, and optimization stages",
+    )
+    .fmt_markdown(columns=["extract", "transform", "quality", "load", "opt_storage", "opt_code"])
+    .cols_label(
+        extract="Extract",
+        transform="Transform",
+        quality="Quality Check",
+        load="Load",
+        opt_storage="Storage",
+        opt_code="Code",
+    )
+    .tab_spanner(label="Optimization", columns=["opt_storage", "opt_code"])
+    .tab_stubhead(label="Table Type")
+    .cols_align(align="left")
+    .cols_width({
+        "type": "70px",
+        "extract": "190px",
+        "transform": "300px",
+        "quality": "170px",
+        "load": "150px",
+        "opt_storage": "150px",
+        "opt_code": "200px",
+    })
+    .tab_options(
+        table_font_size="13px",
+        heading_title_font_size="20px",
+        heading_subtitle_font_size="13px",
+        column_labels_font_weight="bold",
+        column_labels_background_color="#1f2d3d",
+        column_labels_font_size="13px",
+        row_group_font_weight="bold",
+        table_border_top_color="#1f2d3d",
+        heading_background_color="#f4f6f8",
+        stub_background_color="#eef1f5",
+        data_row_padding="10px",
+    )
+    .opt_table_font(font="Arial")
+    .tab_style(
+        style=style.text(weight="bold", color="#1f2d3d"),
+        locations=loc.stub(),
+    )
+    .tab_style(
+        style=style.fill(color="#fbfcfd"),
+        locations=loc.body(columns=["opt_storage", "opt_code"]),
+    )
+    .tab_source_note(source_note=md("*SPJ = Storage-Partitioned Join. SCD2 = Slowly Changing Dimension Type 2. Scheduler = Airflow/Dagster*"))
+)
+
+# Display in a notebook:
+gt
+```
+
+* Start with these patterns and change only if necessary.
+* In this workshop, we will concentrate on E, T & L steps.
+* These principles apply to real projects and system design interviews.
+
+### Additional resources
+
+1. How to partition your data?
+2. How to schedule incremental pull with Airflow?
+3. What are the types of data quality checks and when to use which?
+4. What is SCD2 and how to create it with MERGE INTO?
+
+## Fact pipeline = Incremental extract + enrich with new columns + Insert overwrite partition
+
+![Standard Fact ETL](../images/etl-fact.png)
+
+#### Exercise [5 min]
+
+Use [fct_line_items.py](./fct_line_items.py) as a blueprint & create `fct_orders.py`. 
+
+We use inclusive start time and exclusive end time so that there is no data overlap between runs.
+
+We can also use `select * from source where event_ts > (select max(event_ts) from destination)`, although that will make backfills a manual process. 
+
+![Time range](../images/daily-run-time-range.png)
+
+Run `fct_orders.py` similar to how we run `fct_line_items.py` as shown below (with the same time ranges).
+
+The query comparing `count(*)`’s should match
+
+```{python}
+from fct_line_items import run
+```
+
+```{python}
+run(spark, '1995-01-01', '1996-01-01')
+```
+
+```{python}
+#| scrolled: true
+! uv run python ./fct_line_items.py --start-time 1995-01-01 --end-time 1996-01-01
+```
+
+```{python}
+! uv run python ./fct_orders.py --start-time 1995-01-01 --end-time 1996-01-01
+```
+
+```{python}
+spark.sql("""
+select count(*) from prod.db.orders where o_orderdate >= '1995-01-01' and o_orderdate < '1996-01-01'
+union all 
+select count(*) from local.silver.fct_orders
+""").show()
+```
+
+* Most fact table transformation involves deriving a new column or enriching with data from mapping tables (e.g. dim_date, state_code, etc)
+* **Note** If your logic starts encoding business logic, push the upstream team to add it in the application layer. 
+* E.g., a column computing cost after a discount is valid, as it uses existing columns. However, if you find yourself changing the discount % based on a product ID, because `we didn't do it in the backend,` you have to push the application team to implement it 
+
+
+* In addition to standard transformation types, you may need to incorporate a look back style transformation.
+
+  * Removing duplicates from the source will often involve window functions.
+  * Identifying related rows will involve window functions or self-joins. E.g., Sessionization,  Attribution, time-between-events, etc
+* When you get fact data from multiple sources, you will need to `union/union all` them.
+* E.g., Behavior data from Facebook and Google have to Unioned. 
+* These are flaky, especially with constantly changing input structures, and often involve columns that are present in one but absent in the other. 
+* When faced with such a situation, look for industry standards and match your data to them. 
+* E.g., [OpenRTB](https://github.com/InteractiveAdvertisingBureau/openrtb2.x/blob/main/2.6.md#3233---object-refresh-) is a common standard used by most ad companies.
+
+### Example
+
+Write a transformation query to remove duplicates from the clickstream data (created as CTE below)
+
+![De-duplication](../images/dupclick.png)
+
+```{python}
+spark.sql("""
+WITH clickstream AS (
+    SELECT
+        1 AS user_id, '2024-07-01 10:00:00' AS click_time UNION ALL
+    SELECT
+        1 AS user_id, '2024-07-01 10:05:00' AS click_time UNION ALL
+    SELECT
+        1 AS user_id, '2024-07-01 10:10:00' AS click_time UNION ALL
+    SELECT
+        1 AS user_id, '2024-07-01 10:10:00' AS click_time UNION ALL
+    SELECT
+        1 AS user_id, '2024-07-01 10:10:00' AS click_time UNION ALL
+    SELECT
+        1 AS user_id, '2024-07-01 10:10:00' AS click_time UNION ALL
+    SELECT
+        2 AS user_id, '2024-07-01 10:15:00' AS click_time UNION ALL
+    SELECT
+        2 AS user_id, '2024-07-01 10:20:00' AS click_time UNION ALL
+    SELECT
+        2 AS user_id, '2024-07-01 10:20:00' AS click_time UNION ALL
+    SELECT
+        2 AS user_id, '2024-07-01 10:20:00' AS click_time UNION ALL
+    SELECT
+        2 AS user_id, '2024-07-01 10:20:00' AS click_time UNION ALL
+    SELECT
+        2 AS user_id, '2024-07-01 10:25:00' AS click_time
+),
+ranked_clicks AS (
+    SELECT
+        user_id,
+        click_time,
+        ROW_NUMBER() OVER (PARTITION BY user_id, click_time ORDER BY click_time) AS click_rank
+    FROM
+        clickstream
+)
+SELECT
+    user_id,
+    click_time,
+    click_rank
+FROM
+    ranked_clicks
+WHERE
+    click_rank = 1
+""").show()
+```
+
+## Feedback link
+
+Help me make these better for you [Feedback Link].
+
+I am writing a book on “Design Patterns for Data Pipelines.” The feedback link includes an optional sign-up form to become a beta reader. 
+
+## Dim pipeline = Full extract sources, join them, overwrite table
+
+* Dimension tables are denormalized version of upstream normalized data
+
+* We join related entity tables into a single wide dimension table
+
+* Dimension’s source data typically arrives in the warehouse slower than fact data
+
+#### Exercise [10 min]
+
+Run the scripts `dim_customer_v1.py` and `dim_customer_v2.py`. 
+
+Answer the following questions.
+
+1. Do you see any difference in the results? If yes, what is it and why does it happen?
+2. Which would(v1 or v2) you choose to implement in a pipeline and why? What are the pros and cons of each approach for the user of your data?
+3. Assume customer data is refreshed every 1h, address data every 6h, and our v1/v2 pipeline runs every 2h. Is there another approach, one that lets you use an inner join, but not lose data? What would that look like?
+                                                                                                                   
+**Hint** Pay attention to the transformation logic
+
+```{python}
+#| scrolled: true
+! uv run ./dim_customer_v1.py
+```
+
+```{python}
+#| scrolled: true
+! uv run ./dim_customer_v2.py
+```
+
+```{python}
+# Answer 
+
+spark.sql("select c_mktsegment, segment_description, count(*) from local.silver.dim_customer_v1 group by 1, 2")
+```
+
+```{python}
+# Answer 
+
+spark.sql("select c_mktsegment, segment_description, count(*) from local.silver.dim_customer_v2 group by 1, 2")
+```
+
+![Dimension Join Types](../images/dim-join-types.png)
+
+
+* Depending on the type of join we use there are 2 types of outcome for users
+
+  - Unknown unknowns: When we use an inner join, a row gets dropped due to inavailability. The user is unaware of this.
+
+  - Know unknowns: When we use a coalesce(dime, ‘unknown’) & inner join, a row gets dropped due to inavailability. But the user is made aware of this.
+
+* The third option is to wait atleast 7h (ie until customer & marketsegment has been updated, assuming 1h for market segment run) and then run our pipelines. 
+
+* But even then the data may not be full present in market segment table, the only way to know for sure is to have a metadata for market segment table or do a quality check before transformation in our pipeline.
+
+#### Exercise [10 min]
+
+Assume we have the following transformation logic for one of our dimension tables (code below).
+
+Now we choose to run the dimension pipeline incrementally. What are the pros and cons of data completeness for the user? 
+
+```{python}
+spark.sql("""
+    SELECT
+      c.customer_id,
+      c.name,
+      c.email,
+      a.address,
+      c.created_at,
+      c.updated_at
+    FROM prod.db.customer_details c
+    JOIN prod.db.customer_address a
+      ON c.customer_id = a.customer_id
+    """).show()
+```
+
+```{python}
+spark.sql("""
+    with customer_details_incremental as (select * from prod.db.customer_details where date(updated_at) = '2026-01-03'),
+    customer_address_incremental as (select * from prod.db.customer_address where date(updated_at) = '2026-01-03')
+    SELECT
+      c.customer_id,
+      c.name,
+      c.email,
+      a.address,
+      c.created_at  AS customer_created_at,
+      c.updated_at  AS customer_updated_at,
+      a.created_at  AS address_created_at,
+      a.updated_at  AS address_updated_at
+    FROM customer_details_incremental c
+    JOIN customer_address_incremental a
+      ON c.customer_id = a.customer_id
+    ORDER BY c.customer_id
+    """).show()
+```
+
+**Answer**
+
+![Incremental Dim Pipeline Problems](../images/inc-dim-inner-join-data-loss.png)
+
+* Incremental logic with dimensional pipelines are filled with edge cases.
+
+* Dimension’s input tables are usually update-able and as such hard to reason about incremental chunks, but a full select * gives up complete data.
+
+## Key takeaways
+
+* Good design = Understand business logic + use the right options from the decision table
+* Fact pipeline = Incremental extract + enrich with new columns + Insert overwrite partition
+* Dim pipeline = Full extract sources, join them, overwrite table
+* As with all design principles, break them when absolutely necessary
+

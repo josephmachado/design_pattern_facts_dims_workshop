@@ -27,8 +27,8 @@ def extract(
 
 
 def transform(spark: SparkSession, input_dfs: dict[str, DataFrame]) -> DataFrame:
-    input_dfs['lineitem'].createOrReplaceTempView('lineitem')
-    input_dfs['dim_date'].createOrReplaceTempView('dim_date')
+    input_dfs["lineitem"].createOrReplaceTempView("lineitem")
+    input_dfs["dim_date"].createOrReplaceTempView("dim_date")
     return spark.sql("""
         SELECT
           l.l_orderkey,
@@ -69,11 +69,10 @@ def transform(spark: SparkSession, input_dfs: dict[str, DataFrame]) -> DataFrame
 
 
 def load(output_df: DataFrame, spark: SparkSession) -> None:
-
     if not spark.catalog.tableExists(TABLE_NAME):
         (
             output_df.writeTo(TABLE_NAME)
-            .partitionedBy(F.partitioning.days("l_shipdate"))
+            .partitionedBy(F.partitioning.months("l_shipdate"))
             .createOrReplace()
         )
     else:
@@ -101,3 +100,4 @@ if __name__ == "__main__":
     spark = SparkSession.builder.appName(TABLE_NAME).master("local[*]").getOrCreate()
     spark.sparkContext.setLogLevel("ERROR")
     run(spark, args.start_time, args.end_time)
+

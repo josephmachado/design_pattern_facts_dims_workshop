@@ -8,6 +8,7 @@ services:
     ports:
       - "8888:8888"   # Jupyter Lab
       - "3001:3001"   # Jupyter Lab MCP
+      - "4040-4049:4040-4049" # Spark UI
     volumes:
       - ./:/usr/src/app
       - /usr/src/app/.venv
