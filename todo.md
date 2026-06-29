@@ -13,7 +13,7 @@
 4. [x] Takeaway notes + key points to hit (organize for priority and top-down flow)
 ~5. Time & practice~
 ~6. Create a post + pdf for this~ 
-- [ ] Clean up README.md
+- [x] Clean up README.md
 7. [ ] Setup Youtube live event 
 8. [ ] Setup reminder link (for readers who choose it)
 9. [x] Feedback form with option to join beta readers

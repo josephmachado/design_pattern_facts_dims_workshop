@@ -23,7 +23,7 @@
 > [!NOTE]
 > Wait about 5 minutes for all packages to be automatically installed
 
-Open notebook at [./notebooks/workshop.ipynb]
+Open notebook at [./notebooks/workshop.ipynb](./notebooks/workshop.ipynb)
 
 ### Local Setup
 
@@ -46,7 +46,7 @@ sleep 30 # sleep 30 seconds to wait for the container and its services to fully 
 
 Open Jupyter Lab at [http://localhost:8888](http://localhost:8888)
 
-Open workshop notebook at [./notebooks/workshop.ipynb]
+Open workshop notebook at [./notebooks/workshop.ipynb](./notebooks/workshop.ipynb)
 
 > [!CAUTION]
 > Do not forget to stop your codespaces machine
