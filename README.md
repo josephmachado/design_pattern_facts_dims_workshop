@@ -1,3 +1,13 @@
+<!-- vim-markdown-toc GFM -->
+
+* [Design Patterns: Fact & Dimension Pipelines](#design-patterns-fact--dimension-pipelines)
+    * [Setup](#setup)
+        * [CodeSpaces Setup (Recommended)](#codespaces-setup-recommended)
+        * [Local Setup](#local-setup)
+            * [Running code](#running-code)
+
+<!-- vim-markdown-toc -->
+
 # Design Patterns: Fact & Dimension Pipelines
 
 ## Setup 
