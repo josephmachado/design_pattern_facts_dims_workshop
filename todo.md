@@ -8,7 +8,7 @@
    ~[ ] add: image that shows inc dim + joins is tricky as a data now can point to an input from past,~
 2. [x] Code clean up; focus on easy to understand, quick to run & exercise prompts
 3. [x] Content front load, clean up
-- [ ] Format, add links, further reading per section & general presentation 
+- [x] Format, add links, further reading per section & general presentation 
 - [ ] Split to with and without solution notebooks
 4. [ ] Takeaway notes + key points to hit (organize for priority and top-down flow)
 ~5. Time & practice~
