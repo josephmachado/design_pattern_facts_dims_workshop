@@ -17,7 +17,7 @@
 
 [![YouTube Live workshop](https://img.youtube.com/vi/AXtcWgvCUtw/0.jpg)](https://www.youtube.com/live/AXtcWgvCUtw)
 
-Code for blog at: [Data Pipeline Design: Facts & Dimensions](https://www.startdataengineering.com/data-pipeline-design-facts-dimensions/)
+Code for blog at: [Data Pipeline Design: Facts & Dimensions](https://www.startdataengineering.com/post/data-pipeline-design-facts-dimensions/)
 
 ## Setup 
 
