@@ -1,7 +1,7 @@
 
 <!-- vim-markdown-toc GFM -->
 
-* [Design Patterns: Fact & Dimension Pipelines](#design-patterns-fact--dimension-pipelines)
+* [Data Pipeline Design: Facts & Dimensions](#data-pipeline-design-facts--dimensions)
     * [YouTube Live Workshop](#youtube-live-workshop)
     * [Setup](#setup)
         * [CodeSpaces Setup (Recommended)](#codespaces-setup-recommended)
@@ -11,11 +11,13 @@
     * [Troubleshooting](#troubleshooting)
 
 <!-- vim-markdown-toc -->
-# Design Patterns: Fact & Dimension Pipelines
+# Data Pipeline Design: Facts & Dimensions 
 
 ## YouTube Live Workshop
 
 [![YouTube Live workshop](https://img.youtube.com/vi/AXtcWgvCUtw/0.jpg)](https://www.youtube.com/live/AXtcWgvCUtw)
+
+Code for blog at: [Data Pipeline Design: Facts & Dimensions](https://www.startdataengineering.com/data-pipeline-design-facts-dimensions/)
 
 ## Setup 
 

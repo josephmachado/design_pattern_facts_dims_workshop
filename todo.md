@@ -15,9 +15,13 @@
 ~6. Create a post + pdf for this~ 
 - [x] Clean up README.md
 - [x] Create blog post from notebook without solution
-7. [ ] Setup Youtube live event 
-11. [ ] PDF email broadcast & update blog post
-8. [ ] Setup reminder link (for readers who choose it)
+7. [x] Setup Youtube live event 
+11. [x] PDF email broadcast & update blog post
+- [x] Clean up README with link to blog 
+~8. [ ] Setup reminder link (for readers who choose it)~
 9. [x] Feedback form with option to join beta readers
 10. [ ] time it & practice
+- [ ] 3x QC: Blog 
+- [ ] 3x QC: Email
+- [ ] 3x QC: Workshop
 
