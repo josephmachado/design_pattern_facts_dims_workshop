@@ -1,4 +1,17 @@
 
+<!-- vim-markdown-toc GFM -->
+
+* [Data Pipeline Design: Facts & Dimensions](#data-pipeline-design-facts--dimensions)
+    * [YouTube Live Workshop](#youtube-live-workshop)
+    * [Setup](#setup)
+        * [Local Setup (Recommended)](#local-setup-recommended)
+            * [Running code](#running-code)
+        * [CodeSpaces Setup](#codespaces-setup)
+            * [Switch off codespaces](#switch-off-codespaces)
+    * [Troubleshooting](#troubleshooting)
+
+<!-- vim-markdown-toc -->
+
 # Data Pipeline Design: Facts & Dimensions 
 
 ## YouTube Live Workshop
