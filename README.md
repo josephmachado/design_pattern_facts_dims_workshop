@@ -65,9 +65,11 @@ sleep 30 # sleep 30 seconds to wait for the container and its services to fully 
 ```
 
 > [!NOTE]
-> The first docker build will take a while to complete 
+> The first docker build will take a while to complete, about 10 min
 
-Open notebook at [./notebooks/workshop.ipynb](./notebooks/workshop.ipynb)
+Open notebook at [./notebooks/workshop.ipynb](./notebooks/workshop.ipynb) by opening the `8888` port as shown in the screenshot below.
+
+![Open Notebook via CodeSpaces](./images/open-nb-codespaces.png)
 
 #### Switch off codespaces 
 
