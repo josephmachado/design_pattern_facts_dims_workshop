@@ -1,6 +1,12 @@
 {
   "name": "My Dev Container",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+      "ghcr.io/devcontainers/features/docker-in-docker:2": {
+        "version": "latest",
+        "moby": true
+      }
+  },
   "hostRequirements": {
     "cpus": 8,
     "memory": "16gb",
