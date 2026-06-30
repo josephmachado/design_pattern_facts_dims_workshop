@@ -1,16 +1,4 @@
 
-<!-- vim-markdown-toc GFM -->
-
-* [Data Pipeline Design: Facts & Dimensions](#data-pipeline-design-facts--dimensions)
-    * [YouTube Live Workshop](#youtube-live-workshop)
-    * [Setup](#setup)
-        * [CodeSpaces Setup (Recommended)](#codespaces-setup-recommended)
-        * [Local Setup](#local-setup)
-            * [Running code](#running-code)
-    * [Switch off codespaces](#switch-off-codespaces)
-    * [Troubleshooting](#troubleshooting)
-
-<!-- vim-markdown-toc -->
 # Data Pipeline Design: Facts & Dimensions 
 
 ## YouTube Live Workshop
@@ -21,25 +9,13 @@ Code for blog at: [Data Pipeline Design: Facts & Dimensions](https://www.startda
 
 ## Setup 
 
-### CodeSpaces Setup (Recommended)
-
-**Prerequisites**
-
-1. [GitHub Account](https://github.com/)
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/josephmachado/design_pattern_facts_dims_workshop)
-
-> [!NOTE]
-> Wait about 5 minutes for all packages to be automatically installed
-
-Open notebook at [./notebooks/workshop.ipynb](./notebooks/workshop.ipynb)
-
-### Local Setup
+### Local Setup (Recommended)
 
 **Prerequisites**
 
 1. [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 2. [Docker](https://docs.docker.com/engine/install/) and [Docker Compose](https://docs.docker.com/compose/install/)
+
 **Windows users**: Please use WSL and Install Ubuntu using this [document](https://documentation.ubuntu.com/wsl/stable/howto/install-ubuntu-wsl2/#). In your ubuntu terminal install the prerequisites above.
 
 Clone the repo & start the containers as shown below.
@@ -57,7 +33,30 @@ Open Jupyter Lab at [http://localhost:8888](http://localhost:8888)
 
 Open workshop notebook at [./notebooks/workshop.ipynb](./notebooks/workshop.ipynb)
 
-## Switch off codespaces 
+### CodeSpaces Setup
+
+**Prerequisites**
+
+1. [GitHub Account](https://github.com/)
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/josephmachado/design_pattern_facts_dims_workshop)
+
+> [!CAUTION]
+> Make sure to use atleast a 4-core machine 
+
+Then start docker containers via the terminal as shown below.
+
+```bash 
+docker compose up -d --build
+sleep 30 # sleep 30 seconds to wait for the container and its services to fully start
+```
+
+> [!NOTE]
+> The first docker build will take a while to complete 
+
+Open notebook at [./notebooks/workshop.ipynb](./notebooks/workshop.ipynb)
+
+#### Switch off codespaces 
 
 > [!CAUTION]
 > Do not forget to stop your codespaces machine

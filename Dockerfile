@@ -34,7 +34,6 @@ ENV PATH="/root/.local/bin/:$PATH"
 # Copy code and settings
 COPY . .
 
-
 # Install modules
 RUN uv sync
 
