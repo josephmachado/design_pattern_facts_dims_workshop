@@ -2,7 +2,7 @@
 
 ## YouTube Live Workshop
 
-![YouTube Live Workshop](https://www.youtube.com/watch?v=AXtcWgvCUtw)
+[![YouTube Live workshop](https://img.youtube.com/vi/AXtcWgvCUtw/0.jpg)](https://www.youtube.com/live/AXtcWgvCUtw)
 
 ## Setup 
 
