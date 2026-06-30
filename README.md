@@ -27,7 +27,7 @@ Code for blog at: [Data Pipeline Design: Facts & Dimensions](https://www.startda
 
 1. [GitHub Account](https://github.com/)
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/josephmachado/simple_dbt_project)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/josephmachado/design_pattern_facts_dims_workshop)
 
 > [!NOTE]
 > Wait about 5 minutes for all packages to be automatically installed
