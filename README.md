@@ -1,3 +1,16 @@
+
+<!-- vim-markdown-toc GFM -->
+
+* [Design Patterns: Fact & Dimension Pipelines](#design-patterns-fact--dimension-pipelines)
+    * [YouTube Live Workshop](#youtube-live-workshop)
+    * [Setup](#setup)
+        * [CodeSpaces Setup (Recommended)](#codespaces-setup-recommended)
+        * [Local Setup](#local-setup)
+            * [Running code](#running-code)
+    * [Switch off codespaces](#switch-off-codespaces)
+    * [Troubleshooting](#troubleshooting)
+
+<!-- vim-markdown-toc -->
 # Design Patterns: Fact & Dimension Pipelines
 
 ## YouTube Live Workshop
